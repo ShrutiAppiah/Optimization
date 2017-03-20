@@ -5,11 +5,10 @@ dydt = zeros(3,1);
 % extra parameters must be defined outside the ODE function and passed in
 % when you specify the function handle
 
-dydt(1) = (F_i-10*(t+1)^2) - k_s*qs - b_s*((1/m_s)*ps-(1/m_l)*y(1));
+dydt(1) = (F_i-2(t-150 - k_s*qs - b_s*((1/m_s)*ps-(1/m_l)*y(1));
 dydt(2) = k_s*y(1) + k_s*((1/m_s)*ps-(1/m_l)*y(1)) - k_l*y(2) - b_l*((1/m_l)*y(1)-(1/m_c)*y(3));
 dydt(3) = k_l*y(2) + b_l*((1/m_l)*y(1)-(1/m_c)*y(3));
 
-%(F_i-10*(t+1)^2)
 
 % dydt = zeros(5,1);
 % 

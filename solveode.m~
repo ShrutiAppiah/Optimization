@@ -54,7 +54,7 @@ b_l = DAMPING_RATIO_L*2*sqrt(k_l*m_l);
 % Selected initial values of constants for the shell and contents
 % These values will be varied during mathematical sensitivity analysis
 m_s = 6;
-m_c = 34.5;
+m_c = 34.5-m_s-m_l;
 k_s = YOUNGS_MOD_S*AREA/TH_S;
 b_s = 0; % Assume no damping in the shell material
 
@@ -64,17 +64,23 @@ F_i = (m_s + m_l + m_c)*9.81;
 % Constants for the shell
 qs = 0; % displacement of the shell
 ps = 144; % momentum of the shell
+%p(t) = exp(-10*t+4.9698);
+%f = diff(p);
+
+pt = exp(-10*t+4.9698);
+F_i = diff(pt);
 
 momentum = zeros(length(th),3);
 
 for i=1:length(thmat)
-    sol = ode15s(@(t,y) suitcase(t,y,m_s,k_s,b_s,m_l,k_l,b_l,m_c,F_i,qs,ps), tspan, y0);
+    sol = ode15s(@(t,y) suitcase(t,y,m_s,k_s,b_s,m_l,k_l,b_l,m_c,F_i,qs,pt), tspan, y0);
     
 	momentum(i,1) = max(sol.y(3,:)); % store max momentum
     %disp(th);
     momentum(i,2) = th; % store thickness
-    momentum(i,3) = m_l;
-    disp(m_l);
+    momentum(i,3) = m_l; %mass
+    momentum(i,4) = m_l/DENSITY; %volume
+%     disp(m_l);
     
     [th,m_l,k_l,b_l] = updateParam(th,dth,DENSITY,YOUNGS_MOD_L,DAMPING_RATIO_L,AREA);
 end
@@ -104,3 +110,6 @@ title('th vs mass')
 plot(momentum(:,2), (ps-momentum(:,1)/ps))
 hold off
 title('Thickness vs momentum of Contents')
+
+plot(momentum(:,2), momentum(:,4))
+title('th vs volume')

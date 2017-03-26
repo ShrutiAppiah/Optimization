@@ -6,8 +6,7 @@ dydt = zeros(3,1);
 % when you specify the function handle
 % pt = exp(-10*t+4.9698);
 % F_i = diff(pt);
-ps = exp(-7000*t+log(-(m_c+m_l+m_s)*6.2))*25*t;
-F_i = exp(-7000*t+log(-(m_c+m_l+m_s)*6.2))*-25;
+F_i = exp(-25*t+log(-(m_c+m_l+m_s)*6.2))*;
 
 dydt(1) = F_i - k_s*qs - b_s*((1/m_s)*ps-(1/m_l)*y(1));
 dydt(2) = k_s*y(1) + k_s*((1/m_s)*ps-(1/m_l)*y(1)) - k_l*y(2) - b_l*((1/m_l)*y(1)-(1/m_c)*y(3));
